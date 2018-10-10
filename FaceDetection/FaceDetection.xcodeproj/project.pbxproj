@@ -122,7 +122,7 @@
 				TargetAttributes = {
 					83DD12AE1D9D6530007274AB = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = N84Y9R924P;
+						DevelopmentTeam = 83LMU4WUG5;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -306,10 +306,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = N84Y9R924P;
+				DEVELOPMENT_TEAM = 83LMU4WUG5;
 				INFOPLIST_FILE = FaceDetection/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = INV.FaceDetection;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.finckef.hsda-face";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -319,10 +319,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = N84Y9R924P;
+				DEVELOPMENT_TEAM = 83LMU4WUG5;
 				INFOPLIST_FILE = FaceDetection/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = INV.FaceDetection;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.finckef.hsda-face";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

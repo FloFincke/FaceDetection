@@ -19,13 +19,14 @@ enum INVVideoControllerErrors: Error {
     case undefinedError
 }
 enum INVVideoAccessType {
-    case both
     case video
-    case audio
     case unknown
 }
 
+
 class INVVideoViewController: UIViewController {
+    public var color: CGColor =  UIColor.green.withAlphaComponent(0.5).cgColor
+
     var errorBlock: ((_ error: Error) -> Void)?
     var componentReadyBlock: (() -> Void)?
     private enum INVVideoQueuesType: String {
@@ -33,7 +34,6 @@ class INVVideoViewController: UIViewController {
         case camera
     }
     private var currentAccessType: INVVideoAccessType = .unknown
-    var audioOutput: AVCaptureAudioDataOutput?
     var captureOutput: AVCaptureVideoDataOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
     fileprivate let sessionQueue = DispatchQueue(
@@ -91,16 +91,6 @@ class INVVideoViewController: UIViewController {
         } else {
             errorBlock?(INVVideoControllerErrors.unsupportedDevice)
         }
-        let audioDevice = try self.deviceWithMediaType(
-            mediaType: AVMediaTypeAudio,
-            position: nil
-        )
-        let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
-        if self.captureSession.canAddInput(audioDeviceInput) {
-            self.captureSession.addInput(audioDeviceInput)
-        } else {
-            errorBlock?(INVVideoControllerErrors.unsupportedDevice)
-        }
     }
 
     private func handleVideoRotation() {
@@ -117,7 +107,7 @@ class INVVideoViewController: UIViewController {
                     let videoOrientation = AVCaptureVideoOrientation(rawValue:
                         orientation.rawValue) {
                     outputLayerConnection.videoOrientation = videoOrientation
-                    outputLayerConnection.isVideoMirrored = true
+                    outputLayerConnection.isVideoMirrored = true // false for front
                 }
             }
         }
@@ -129,28 +119,6 @@ class INVVideoViewController: UIViewController {
                 switch self.currentAccessType {
                 case .unknown:
                     self.currentAccessType = .video
-                case .audio:
-                    self.currentAccessType = .both
-                default:
-                    break
-                }
-            }
-            if self.currentAccessType == requestedAccess {
-                DispatchQueue.main.async {
-                    self.componentReadyBlock?()
-                }
-            }
-        })
-    }
-
-    private func requestAudioAccess(requestedAccess: INVVideoAccessType) {
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { (isGranted) in
-            if isGranted {
-                switch self.currentAccessType {
-                case .unknown:
-                    self.currentAccessType = .audio
-                case .video:
-                    self.currentAccessType = .both
                 default:
                     break
                 }
@@ -166,15 +134,8 @@ class INVVideoViewController: UIViewController {
     func setupDeviceCapture(requiredAccessType: INVVideoAccessType) {
         if self.currentAccessType != requiredAccessType {
             switch requiredAccessType {
-            case .both:
-                self.requestVideoAccess(requestedAccess: requiredAccessType)
-                self.requestAudioAccess(requestedAccess: requiredAccessType)
-                break
             case .video:
                 self.requestVideoAccess(requestedAccess: requiredAccessType)
-                break
-            case .audio:
-                self.requestAudioAccess(requestedAccess: requiredAccessType)
                 break
             case .unknown:
                 self.errorBlock?(INVVideoControllerErrors.videoNotConfigured)
@@ -208,7 +169,7 @@ extension INVVideoViewController {
     func startCaptureSesion() {
         self.captureSession.startRunning()
         self.previewLayer?.connection.automaticallyAdjustsVideoMirroring = false
-        self.previewLayer?.connection.isVideoMirrored = true
+        self.previewLayer?.connection.isVideoMirrored = false // true for front
         self.runtimeCaptureErrorObserver = NotificationCenter.default.addObserver(
             forName: NSNotification.Name.AVCaptureSessionRuntimeError,
             object: self.captureSession,

@@ -8,6 +8,7 @@ import UIKit
 import AVFoundation
 
 extension INVVideoViewController:AVCaptureMetadataOutputObjectsDelegate {
+    
     func printFaceLayer(layer: CALayer, faceObjects: [AVMetadataFaceObject]) {
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
@@ -24,6 +25,7 @@ extension INVVideoViewController:AVCaptureMetadataOutputObjectsDelegate {
         for faceObject in faceObjects {
             let featureLayer = CALayer()
             featureLayer.frame = faceObject.bounds
+            featureLayer.backgroundColor = self.color
             featureLayer.borderColor = UIColor.green.cgColor
             featureLayer.borderWidth = 1.0
             featureLayer.name = "face"

@@ -14,7 +14,12 @@ The project illustrates how to use Face Detection iOS Api from  live camera feed
 Helper classes allows easily to use iOS video apis. You are welcome to use these code for your project.
 
 ## How To:
-Capture session starts if and only if there are video and audio recording permissions
+Capture session starts if and only if there are video recording permissions
+
+## Changes to original
+To embed this prototype into a design fiction story about a lie detection software, I added the following functionality:
+* [x] Switch to back facing camers
+* [x] Invisible buttons to toggle overlay color (green, red, and transparent)
 
 ## License
 

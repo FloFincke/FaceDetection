@@ -47,6 +47,8 @@ class INVVideoComponent: NSObject {
         super.init()
         viewController.addChildViewController(self.videoController)
         viewController.view.addSubview(self.videoController.view)
+        viewController.view.sendSubview(toBack: self.videoController.view)
+
         self.videoController.didMove(toParentViewController: viewController)
         self.videoController.errorBlock = { error in
             self.showAlert(error: error)
@@ -55,7 +57,7 @@ class INVVideoComponent: NSObject {
         self.videoController.componentReadyBlock = { [weak self] in
             self?.state = .ready
         }
-        self.videoController.setupDeviceCapture(requiredAccessType: .both)
+        self.videoController.setupDeviceCapture(requiredAccessType: .video)
         self.videoController.configureDeviceCapture(cameraType: self.cameraType)
     }
 
@@ -90,5 +92,9 @@ class INVVideoComponent: NSObject {
 
     func stopLivePreview() {
         self.videoController.stopCaptureSession()
+    }
+    
+    func setColor(color: CGColor) {
+        self.videoController.color = color
     }
 }
